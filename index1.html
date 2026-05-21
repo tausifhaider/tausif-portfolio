@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tausif Haider - Full Stack Portfolio (Single Page)</title>
+  <style>
+    /*
+     * GLOBAL STYLES & ANIMATIONS
+     * Shared styles for the entire page
+    */
+    /* CHANGED: Switched to a professional dark mode theme */
+    :root {
+      --color-primary-dark: #121212;
+      --color-secondary-dark: #1e1e1e;
+      --color-accent-blue: #00bcd4; /* Electric Blue Accent */
+      --color-text-light: #e0e0e0;
+      --color-text-dim: #9e9e9e;
+      --shadow-color: rgba(0, 0, 0, 0.4);
+    }
+
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      /* NEW: Solid dark background */
+      background: var(--color-primary-dark);
+      color: var(--color-text-light);
+      overflow-x: hidden;
+    }
+
+    /* Gradient animation is no longer needed for a solid theme, but keeping the @keyframes if a user wants to re-implement */
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Navbar */
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 20px;
+      /* NEW: Darker, subtle background */
+      background: rgba(30, 30, 30, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 0 0 20px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(0, 188, 212, 0.3); /* Subtle blue border */
+    }
+    nav a {
+      text-decoration: none;
+      color: var(--color-text-light);
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    /* CHANGED: Accent color hover */
+    nav a:hover { color: var(--color-accent-blue); }
+
+    /* Section Styling */
+    section {
+      padding: 80px 20px;
+      min-height: 80vh;
+      /* NEW: Uniform dark background for sections */
+      background: var(--color-primary-dark);
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px;
+      /* NEW: Transparent, dark card look */
+      background: var(--color-secondary-dark);
+      border-radius: 20px;
+      box-shadow: 0 0 30px var(--shadow-color); /* Darker shadow */
+      backdrop-filter: blur(12px);
+      text-align: center;
+    }
+
+    /* Titles */
+    h1 {
+      font-size: 2.3em;
+      margin-bottom: 40px;
+      text-align: center;
+      color: var(--color-text-light); /* Ensure titles are bright */
+    }
+
+    /* ABOUT Section Specific Styles */
+    #about {
+        /* Removed gradient and animation */
+        background: var(--color-primary-dark);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    #about .about-content img {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 4px solid var(--color-accent-blue); /* Blue border highlight */
+      box-shadow: 0 0 25px rgba(0, 188, 212, 0.5); /* Blue glow effect */
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    #about .about-content img:hover {
+      transform: scale(1.05);
+    }
+    #about h1 {
+      margin-top: 20px;
+      font-size: 2.2em;
+      letter-spacing: 1px;
+    }
+    #about p {
+      max-width: 700px;
+      line-height: 1.7;
+      font-size: 1.1em;
+      margin-top: 20px;
+      color: var(--color-text-dim); /* Slightly dimmer text */
+      margin-bottom: 20px;
+    }
+    /* Highlight bold text in body paragraphs */
+    #about p b {
+      color: var(--color-accent-blue);
+    }
+
+
+    /* EXPERIENCE Section Specific Styles */
+    #experience {
+        /* Removed gradient and animation */
+        background: var(--color-primary-dark);
+    }
+    #experience .section {
+      margin-bottom: 40px;
+      text-align: left;
+    }
+
+    /* CHANGED: Accent color for section titles */
+    #experience .section h2 {
+      color: var(--color-accent-blue);
+      margin-bottom: 10px;
+    }
+
+    #experience .section p {
+      line-height: 1.6;
+      font-size: 1.05em;
+      color: var(--color-text-dim);
+    }
+    #experience .section p b {
+        color: var(--color-text-light);
+    }
+
+
+    /* PROJECTS Section Specific Styles */
+    #projects {
+        /* Removed gradient and animation */
+        background: var(--color-primary-dark);
+    }
+    .project-card {
+      /* NEW: Transparent, dark card look */
+      background: rgba(40, 40, 40, 0.7);
+      border: 1px solid rgba(0, 188, 212, 0.2);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 40px;
+      box-shadow: 0 8px 15px var(--shadow-color);
+      backdrop-filter: blur(12px);
+      transition: transform 0.3s, box-shadow 0.3s;
+      opacity: 1;
+      transform: translateY(0);
+      text-align: left;
+    }
+
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 0 35px rgba(0, 188, 212, 0.5); /* Blue glow on hover */
+    }
+
+    /* CHANGED: Accent color for project titles */
+    .project-card h2 {
+      color: var(--color-accent-blue);
+      margin-bottom: 15px;
+    }
+
+    .project-card p {
+      line-height: 1.6;
+      font-size: 1.05em;
+      color: var(--color-text-dim);
+    }
+    .project-card p b {
+        color: var(--color-text-light);
+    }
+
+
+    /* SKILLS Section Specific Styles */
+    #skills {
+        /* Removed gradient and animation */
+        background: var(--color-primary-dark);
+    }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+      justify-items: center;
+      margin-top: 40px;
+    }
+
+    .skill-card {
+      /* NEW: Transparent, dark card look */
+      background: rgba(40, 40, 40, 0.7);
+      border-radius: 20px;
+      padding: 25px;
+      width: 220px;
+      box-shadow: 0 0 15px var(--shadow-color);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s;
+      cursor: pointer;
+      text-align: center;
+      border: 1px solid rgba(0, 188, 212, 0.2);
+    }
+    .skill-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(0, 188, 212, 0.6);
+    }
+    /* CHANGED: Accent color for skill titles */
+    .skill-card h3 {
+      color: var(--color-accent-blue);
+      margin-bottom: 10px;
+    }
+    .skill-card p {
+      color: var(--color-text-light);
+      font-size: 1em;
+      line-height: 1.4;
+    }
+
+    /* CONTACT Section Specific Styles */
+    #contact {
+        /* Removed gradient and animation */
+        background: var(--color-primary-dark);
+    }
+    #contact .container {
+        margin: 0 auto;
+    }
+
+    .info {
+      line-height: 1.8;
+      font-size: 1.1em;
+      color: var(--color-text-dim);
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .info a {
+      /* CHANGED: Accent color for links */
+      color: var(--color-accent-blue);
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .info a:hover { text-decoration: underline; }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      /* NEW: Blue accent button style */
+      background: var(--color-accent-blue);
+      border: 2px solid var(--color-accent-blue);
+      border-radius: 30px;
+      color: var(--color-primary-dark); /* Dark text on bright button */
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .btn:hover {
+      /* NEW: Hover effect */
+      background: transparent;
+      color: var(--color-accent-blue);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 15px rgba(0, 188, 212, 0.4);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--color-text-dim);
+      font-size: 0.9em;
+      opacity: 0.7;
+      background: var(--color-secondary-dark); /* Darker footer background */
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        nav {
+            gap: 15px;
+            padding: 15px 10px;
+        }
+        nav a {
+            font-size: 0.9em;
+        }
+        .container {
+            padding: 20px;
+            margin: 40px auto;
+        }
+        h1 {
+            font-size: 1.8em;
+        }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <section id="about">
+    <div class="about-content">
+        <img src="img/tausif4.jpeg" alt="Tausif Haider" />
+        <h1>Hi, I'm Tausif Haider 👋</h1>
+        <p>
+            I’m an enthusiastic and motivated B.Tech Computer Science Engineering student at
+            KCC Institute of Engineering and Technology. I have strong academic knowledge
+            and hands-on exposure in <b>Full Stack Development</b> with Python, Django, HTML, CSS,
+            JavaScript, and MySQL, along with i'm also skilled in <b>Data Analyst Roles</b> with Excel, Sql, Python and Power BI.
+        </p>
+  </section>
+
+  <section id="experience">
+    <div class="container">
+        <h1>My Experience 💼</h1>
+
+        <div class="section">
+            <h2>Softpro India Computer Technologies Pvt. Ltd. — Full Stack Development Intern</h2>
+            <p><b>Duration:</b> August 2025 – September 2025</p>
+            <p>
+                Completed hands-on training in Full Stack Development with a focus on
+                <b>Python, Django, HTML, CSS, JavaScript,</b> and <b>MySQL</b>.
+                Worked on real-world projects, developing responsive web applications
+                and implementing backend APIs.
+                Gained experience in database management, version control, and
+                teamwork under industry-level mentorship.
+            </p>
+        </div>
+        <div class="section">
+    <h2>Future Interns — Data Science & Analytics Intern</h2>
+    <p><b>Duration:</b> December 2025 – January 2026</p>
+    <p>
+        Analyzed real-world datasets across sales, marketing, and education domains
+        to generate actionable business insights.
+        Cleaned, processed, and visualized raw data using
+        <b>Python, Pandas,</b> and <b>Excel</b>.
+        Developed interactive <b>Power BI</b> dashboards to monitor KPIs such as
+        Sales, Profit, CTR, ROI, and campaign performance.
+        Performed student satisfaction analysis by calculating weighted average
+        scores from survey datasets.
+        Applied sentiment analysis techniques using <b>TextBlob</b> and
+        <b>VADER</b> to extract insights from structured feedback data.
+     </p>
+     </div> 
+     <div class="section">
+    <h2>AnalytixLabs — Data Science Trainee</h2>
+    <p><b>Duration:</b> December 2025 – Present | Noida, India</p>
+    <p>
+        Gaining practical experience in <b>Excel</b> for data cleaning,
+        analysis, and visualization.
+        Using <b>Python</b> for data manipulation, exploratory data analysis,
+        and machine learning workflows.
+        Enhancing <b>SQL</b> skills through query writing, joins,
+        aggregations, data extraction, and optimization.
+        Creating interactive dashboards and reports using <b>Power BI</b>
+        for effective data visualization.
+        Working with real-world datasets to improve analytical thinking
+        and problem-solving abilities.
+    </p>
+    </div>
+    <div class="section">
+    <h2>Unified Mentor Pvt. Ltd. — Web Development Intern</h2>
+    <p><b>Duration:</b> July 2025 – September 2025 | Remote</p>
+    <p>
+        Assisted in developing and maintaining responsive web pages using
+        <b>HTML5, CSS3,</b> and basic <b>JavaScript</b>.
+        Worked on improving website UI/UX and ensuring mobile-friendly design.
+        Collaborated with the development team to build and update website components.
+        Learned and implemented concepts of frontend development and web design.
+        Fixed basic bugs and optimized webpage layouts for better performance.
+        Gained hands-on experience with real-world web development workflows
+        and project handling.
+    </p>
+        <p>
+        <b>Skills:</b> HTML5, CSS3, JavaScript, Responsive Design,
+        Frontend Development, Web Designing.
+        </p>
+    </div>
+
+
+        <div class="section">
+            <h1>Education 🎓</h1>
+            <h2>B.Tech in Computer Science and Engineering</h2>
+            <p><b>KCC Institute of Engineering and Technology</b> (Sep 2023 – July 2027)</p>
+            <p>Currently pursuing in final year | Strong foundation in programming and development concepts.</p>
+
+            <h2>X (Senior Secondary) — Science Stream</h2>
+            <p><b>Villyams High School, Supaul (BSEB Board)</b> | 2021 | Percentage: 77%</p>
+
+            <h2>XII (Secondary)</h2>
+            <p><b>Supaul senior secondary School, Supaul (BSEB Board)</b> | 2023</p>
+        </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="container">
+        <h1>My Projects 💻</h1>
+
+        <div class="project-card">
+            <h2>Online Learning Platform (Biotech Park, Lucknow)</h2>
+            <p><b>Technologies:</b> Python (Django), SQLite3, HTML, CSS, JavaScript</p>
+            <p>
+                Developed a cloud-based Learning Management System (LMS) with modules for login,
+                course management, student data handling, credentials, and news updates.
+            </p>
+            <p>
+                Integrated email alerts for new registrations and updates, improving communication efficiency.
+                The platform enhanced accessibility for over <b>250+ centers</b> and managed <b>113+ courses</b> seamlessly.
+            </p>
+            <p>
+                Focused on clean UI, backend optimization, and database design to improve user experience and scalability.
+            </p>
+        </div>
+
+        <div class="project-card">
+    <h2>Business Sales Dashboard</h2>
+    <p><b>Technologies:</b> Power BI, Excel/CSV, Power Query, DAX</p>
+    <p>
+        Cleaned and transformed e-commerce sales data from CSV/Excel files to prepare it for reporting and analysis.
+    </p>
+    <p>
+        Developed an interactive Power BI dashboard to monitor sales trends, revenue performance,
+        best-selling products, category-wise analysis, and regional revenue distribution.
+    </p>
+    <p>
+        Generated actionable business insights and KPI reports to support data-driven decision making
+        and improve overall sales performance.
+    </p>
+</div>
+
+<div class="project-card">
+    <h2>Social Media Campaign Performance Tracker</h2>
+    <p><b>Technologies:</b> Power BI, Excel, Google Sheets</p>
+    <p>
+        Analyzed social media advertising campaign data to evaluate engagement and overall campaign effectiveness.
+    </p>
+    <p>
+        Calculated and monitored important KPIs such as CTR, CPC, ROI, and conversion-related metrics
+        through interactive dashboard visualizations.
+    </p>
+    <p>
+        Delivered campaign comparison reports and optimization insights to improve future marketing strategies
+        and performance tracking.
+    </p>
+</div>
+
+<div class="project-card">
+    <h2>College Event Feedback Analysis</h2>
+    <p><b>Technologies:</b> Google Colab, Python, Pandas, Matplotlib, TextBlob, CSV</p>
+    <p>
+        Processed and cleaned student feedback data collected through Google Forms in CSV format
+        for analysis and reporting.
+    </p>
+    <p>
+        Performed rating-based and sentiment analysis using Python libraries to identify satisfaction trends
+        and classify positive, negative, and neutral feedback responses.
+    </p>
+    <p>
+        Visualized insights using charts and analytical reports to suggest improvements for enhancing
+        future college events and student engagement.
+    </p>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="container">
+        <h1>Technical Skills ⚙️</h1>
+
+        <div class="skills-grid">
+
+            <div class="skill-card">
+                <h3>Programming Languages</h3>
+                <p>C<br>Python</p>
+            </div>
+
+            <div class="skill-card">
+                <h3>Web Technologies</h3>
+                <p>HTML<br>CSS<br>JavaScript<br>WordPress<br>Shopify</p>
+            </div>
+
+            <div class="skill-card">
+                <h3>Frameworks</h3>
+                <p>Django<br>Bootstrap</p>
+            </div>
+
+            <div class="skill-card">
+                <h3>Databases</h3>
+                <p>SQLite3<br>MySQL</p>
+            </div>
+
+            <div class="skill-card">
+                <h3>Data Analysis Tools</h3>
+                <p>MS Excel<br>SQL<br>Power BI<br>Power Query</p>
+            </div>
+
+            <div class="skill-card">
+                <h3>Soft Skills</h3>
+                <p>Team Collaboration<br>Problem Solving<br>Adaptability</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+  <section id="contact">
+    <div class="container">
+        <h1>Contact Me ✉️</h1>
+        <div class="info">
+            <p><b>Name:</b> Tausif Haider</p>
+            <p><b>Location:</b> Noida, Uttar Pradesh, India</p>
+            <p><b>Phone:</b> <a href="tel:+918171518475">+91 9113131928</a></p>
+            <p><b>Email:</b> <a href="tausifhaider06@gmail.com">tausifhaider06@gmail.com</a></p>
+        </div>
+
+        <a class="btn" href="img/Tausif.Resume.pdf" download>📄 Download Resume</a>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 Tausif Haider | All rights reserved
+  </footer>
+</body>
+</html>
